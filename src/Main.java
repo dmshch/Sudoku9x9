@@ -1,26 +1,8 @@
 import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class Main {
 
-    static final int sudokuArray[][] = new int[9][9];
-
-    static boolean flag = true;
-
-    static final int errorInLineAndColumn[][] = new int[][] {
-            {7, 1, 4, 8, 2, 5, 6, 9, 3},
-            {8, 2, 5, 9, 3, 6, 7, 1, 4},
-            {9, 3, 6, 1, 4, 7, 8, 2, 5},
-            {2, 5, 8, 3, 6, 9, 1, 4, 7},
-            {1, 4, 7, 2, 5, 8, 9, 3, 6},
-            {3, 6, 9, 4, 7, 1, 2, 5, 8},
-            {5, 8, 2, 6, 9, 3, 4, 7, 1},
-            {4, 7, 1, 5, 8, 2, 3, 6, 9}, // повторение 2-ки
-            {6, 9, 3, 7, 1, 2, 5, 8, 2},
-    };
-
-    static final int rightSquare[][] = new int[][] {
+    static final int sudokuArray[][] = new int[][] {
             {7, 1, 4, 8, 2, 5, 6, 9, 3},
             {8, 2, 5, 9, 3, 6, 7, 1, 4},
             {9, 3, 6, 1, 4, 7, 8, 2, 5},
@@ -32,16 +14,14 @@ public class Main {
             {6, 9, 3, 7, 1, 4, 5, 8, 2},
     };
 
+    static boolean flag = true;
+
     public static void main(String[] args){
 
-        int[][] workArray = errorInLineAndColumn;
+        int[][] workArray = sudokuArray;
 
-
-        // первая проверка на уникальность по строкам столбцам
-        flag = checkInLineAndRow(workArray);
-
-        // вторая проверка на уникальность во внутренних квадратах 3х3
-        flag = checkInSquare(workArray);
+        // запуск проверки корректности решения
+        flag = check(workArray);
 
         // проверки пройдены
         if (flag){
@@ -51,7 +31,10 @@ public class Main {
         }
     }
 
-    public static boolean checkInLineAndRow(int[][] workArray){
+    // проверка на уникальность по строкам, столбцам и для внутренних квадратов 3х3
+    public static boolean check(int[][] workArray){
+
+        // по строкам
         for (int i=0; i<9; i++) {
             for (int j=0; j<9; j++){
                 int temp = workArray[i][j];
@@ -63,6 +46,7 @@ public class Main {
             }
         }
 
+        // по столбцам
         for (int i=0; i<9; i++) {
             for (int j=0; j<9; j++){
                 int temp = workArray[j][i];
@@ -73,11 +57,8 @@ public class Main {
                 }
             }
         }
-        return true;
-    }
 
-
-    public static boolean checkInSquare(int[][] workArray){
+        // внутри квадратов 3х3
         HashSet<Integer> forCheck = new HashSet<Integer>();
         for (int i=0; i<9; i+=3){
             for (int j=0;j<9; j+=3){
