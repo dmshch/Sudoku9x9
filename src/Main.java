@@ -39,9 +39,7 @@ public class Main {
             for (int j=0; j<9; j++){
                 int temp = workArray[i][j];
                 for (int n=j+1; n<9; n++){
-                    if (temp == workArray[i][n]){
-                        return false;
-                    }
+                    if (temp == workArray[i][n]) return false;
                 }
             }
         }
@@ -51,9 +49,7 @@ public class Main {
             for (int j=0; j<9; j++){
                 int temp = workArray[j][i];
                 for (int n=j+1; n<9; n++){
-                    if (temp == workArray[n][i]){
-                        return false;
-                    }
+                    if (temp == workArray[n][i]) return false;
                 }
             }
         }
@@ -70,6 +66,7 @@ public class Main {
                 }
             }
         }
+        
         return true;
     }
 
