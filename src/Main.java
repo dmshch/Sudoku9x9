@@ -16,6 +16,8 @@ public class Main {
 
     static boolean flag = true;
 
+    enum Mode {ROWS, COLUMNS}
+
     public static void main(String[] args){
 
         // запуск проверки корректности решения
@@ -30,17 +32,25 @@ public class Main {
     }
 
     public static boolean check(){
-        return checkInRowsAndColumns(sudokuArray, 0) && checkInRowsAndColumns(sudokuArray, 1) && checkInSquares(sudokuArray);
+        return checkByRows(sudokuArray) && checkByColumns(sudokuArray) && checkInSquares(sudokuArray);
     }
 
-    public static boolean checkInRowsAndColumns(int[][] workArray, int flag){
+    public static boolean checkByRows(int[][] workArray){
+        return checkInRowsAndColumns(workArray, Mode.ROWS);
+    }
+
+    public static boolean checkByColumns(int[][] workArray){
+        return checkInRowsAndColumns(workArray, Mode.COLUMNS);
+    }
+
+    public static boolean checkInRowsAndColumns(int[][] workArray, Mode mode){
         // по строкам и столбцам
         HashSet<Integer> forCheck = new HashSet<Integer>();
         for (int i=0; i<9; i++) {
             for (int j=0; j<9; j++){
-                if (flag == 0){
+                if (mode == Mode.ROWS){
                     if (!forCheck.add(workArray[i][j])) return false;
-                } else if (flag == 1) {
+                } else if (mode == Mode.COLUMNS) {
                     if (!forCheck.add(workArray[j][i])) return false;
                 }
             }
