@@ -18,10 +18,8 @@ public class Main {
 
     public static void main(String[] args){
 
-        int[][] workArray = sudokuArray;
-
         // запуск проверки корректности решения
-        flag = check(workArray);
+        flag = check();
 
         // проверки пройдены
         if (flag){
@@ -31,29 +29,27 @@ public class Main {
         }
     }
 
-    // проверка на уникальность по строкам, столбцам и для внутренних квадратов 3х3
-    public static boolean check(int[][] workArray){
+    public static boolean check(){
+        return checkInRowsAndColumns(sudokuArray, 0) && checkInRowsAndColumns(sudokuArray, 1) && checkInSquares(sudokuArray);
+    }
 
-        // по строкам
+    public static boolean checkInRowsAndColumns(int[][] workArray, int flag){
+        // по строкам и столбцам
+        HashSet<Integer> forCheck = new HashSet<Integer>();
         for (int i=0; i<9; i++) {
             for (int j=0; j<9; j++){
-                int temp = workArray[i][j];
-                for (int n=j+1; n<9; n++){
-                    if (temp == workArray[i][n]) return false;
+                if (flag == 0){
+                    if (!forCheck.add(workArray[i][j])) return false;
+                } else if (flag == 1) {
+                    if (!forCheck.add(workArray[j][i])) return false;
                 }
             }
+            forCheck.clear();
         }
+        return true;
+    }
 
-        // по столбцам
-        for (int i=0; i<9; i++) {
-            for (int j=0; j<9; j++){
-                int temp = workArray[j][i];
-                for (int n=j+1; n<9; n++){
-                    if (temp == workArray[n][i]) return false;
-                }
-            }
-        }
-
+    public static boolean checkInSquares(int[][] workArray){
         // внутри квадратов 3х3
         HashSet<Integer> forCheck = new HashSet<Integer>();
         for (int i=0; i<9; i+=3){
@@ -66,7 +62,6 @@ public class Main {
                 }
             }
         }
-        
         return true;
     }
 
